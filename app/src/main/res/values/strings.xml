@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">CVSHealthCodeChallenge</string>
+    <string name="flickr_search_hint">Keywords (comma separated)</string>
+    <string name="flickr_search_title">Flickr Image Search</string>
+    <string name="search_button_text">Search</string>
+
+
+
+<!--Accessibility strings-->
+    <string name="search_content_description">Search</string>
+
 </resources>
