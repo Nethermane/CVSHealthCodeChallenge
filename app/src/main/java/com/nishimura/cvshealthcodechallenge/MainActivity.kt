@@ -4,15 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
+import com.nishimura.cvshealthcodechallenge.ui.components.FlickrDetailsScreen
 import com.nishimura.cvshealthcodechallenge.ui.components.FlickrSearchScreen
 import com.nishimura.cvshealthcodechallenge.ui.theme.CVSHealthCodeChallengeTheme
 import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModel
@@ -49,24 +52,42 @@ class MainActivity : ComponentActivity() {
             CVSHealthCodeChallengeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    MainSearchScreen(viewModel = viewModel)
+                    MainActivityScreen(viewModel = viewModel)
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
 @ExperimentalCoilApi
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun MainSearchScreen(viewModel: FlickrImageViewModel) {
+fun MainActivityScreen(viewModel: FlickrImageViewModel) {
     CVSHealthCodeChallengeTheme {
-        FlickrSearchScreen(viewModel = viewModel)
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "search") {
+            composable("search") {
+                FlickrSearchScreen(
+                    viewModel = viewModel,
+                    navController = navController
+                )
+            }
+            composable(
+                "details/{index}",
+                arguments = listOf(navArgument("index") {
+                    type = NavType.IntType
+                })
+            ) { _navBackStack ->
+                _navBackStack.arguments?.getInt("index")?.let { viewModel.getItemByIndex(it) }
+                    ?.let {
+                        FlickrDetailsScreen(
+                            flickrItem = it,
+                            navController = navController
+                        )
+                    }
+
+            }
+        }
     }
 }

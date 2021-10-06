@@ -2,6 +2,7 @@
     <string name="app_name">CVSHealthCodeChallenge</string>
     <string name="flickr_search_hint">Keywords (comma separated)</string>
     <string name="flickr_search_title">Flickr Image Search</string>
+    <string name="flickr_details_title">Flickr Image Details</string>
     <string name="search_button_text">Search</string>
 
 

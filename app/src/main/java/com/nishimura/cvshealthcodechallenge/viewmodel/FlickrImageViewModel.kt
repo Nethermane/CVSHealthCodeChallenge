@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nishimura.cvshealthcodechallenge.model.FlickrImage
 import com.nishimura.cvshealthcodechallenge.model.FlickrResponse
+import com.nishimura.cvshealthcodechallenge.model.Item
 import com.nishimura.cvshealthcodechallenge.network.FlickrRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,4 +26,10 @@ class FlickrImageViewModel: ViewModel() {
             _isLoading.value = false
         }
     }
+
+    /**
+     * This really should be done through a room db but the overhead to set it up when no other
+     * functionality is required using it means I will be doing it this way instead.
+     */
+    fun getItemByIndex(index: Int): Item? = _flickrImages.value?.items?.getOrNull(index)
 }

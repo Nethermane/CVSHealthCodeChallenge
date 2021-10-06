@@ -1,5 +1,9 @@
 package com.nishimura.cvshealthcodechallenge.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Item(
     val author: String,
     val author_id: String,
@@ -10,4 +14,4 @@ data class Item(
     val published: String,
     val tags: String,
     val title: String
-)
+) : Parcelable

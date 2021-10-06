@@ -1,9 +1,8 @@
 package com.nishimura.cvshealthcodechallenge.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import android.net.Uri
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -27,9 +26,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.google.gson.Gson
 import com.nishimura.cvshealthcodechallenge.R
+import com.nishimura.cvshealthcodechallenge.model.getTitleOrUntitled
 import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModel
 import kotlinx.coroutines.launch
 
@@ -38,7 +40,7 @@ import kotlinx.coroutines.launch
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
-fun FlickrSearchScreen(viewModel: FlickrImageViewModel) {
+fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavController) {
     var searchValue by remember { mutableStateOf("") }
     val searchResponse = viewModel.flickrImages.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
@@ -52,6 +54,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel) {
         coroutineScope.launch {
             lazyGridState.scrollToItem(0)
         }
+
     }
 
     Column {
@@ -120,7 +123,9 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel) {
                         .padding(PaddingValues(dimensionResource(id = R.dimen.extra_small_padding)))
                         .heightIn(max = 125.dp)
                         .fillMaxWidth()
-
+                        .clickable {
+                            navController.navigate("details/$it")
+                        }
                 ) {
                     Column(
                         modifier = Modifier
@@ -140,7 +145,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel) {
                             contentScale = ContentScale.Crop
                         )
                         Text(
-                            text = searchResponse.value?.items?.get(it)?.title ?: "Untitled",
+                            text = searchResponse.value?.items?.get(it).getTitleOrUntitled(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(colorResource(id = R.color.image_label_background))
