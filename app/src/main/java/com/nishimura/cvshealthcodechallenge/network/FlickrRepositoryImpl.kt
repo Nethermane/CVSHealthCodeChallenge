@@ -1,5 +1,5 @@
 package com.nishimura.cvshealthcodechallenge.network
 
-object FlickrRepositoryImpl : FlickrRepository {
+class FlickrRepositoryImpl : FlickrRepository {
     override suspend fun getImages(tags: String) = RetrofitClient.flickrService.listRepos(tags)
 }

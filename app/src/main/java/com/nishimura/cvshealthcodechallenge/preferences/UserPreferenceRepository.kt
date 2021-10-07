@@ -1,4 +1,4 @@
-package com.nishimura.cvshealthcodechallenge
+package com.nishimura.cvshealthcodechallenge.preferences
 
 import android.app.Activity
 import android.content.Context

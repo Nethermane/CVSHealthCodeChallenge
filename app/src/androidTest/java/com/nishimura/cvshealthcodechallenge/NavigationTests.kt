@@ -1,10 +1,8 @@
 package com.nishimura.cvshealthcodechallenge
 
 import android.app.Application
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -15,11 +13,11 @@ import androidx.navigation.compose.DialogNavigator
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import coil.annotation.ExperimentalCoilApi
 import com.nishimura.cvshealthcodechallenge.model.FlickrResponse
 import com.nishimura.cvshealthcodechallenge.model.Item
 import com.nishimura.cvshealthcodechallenge.model.Media
 import com.nishimura.cvshealthcodechallenge.network.FlickrRepository
+import com.nishimura.cvshealthcodechallenge.ui.components.MainActivityScreen
 import com.nishimura.cvshealthcodechallenge.ui.theme.CVSHealthCodeChallengeTheme
 import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModel
 import org.junit.Assert
@@ -34,17 +32,14 @@ import org.junit.runner.RunWith
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class NavigationTests {
 
     private lateinit var navController: NavHostController
 
-    @ExperimentalFoundationApi
-    @ExperimentalCoilApi
-    @ExperimentalComposeUiApi
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val fakeRepo = object : FlickrRepository {
+    private val fakeRepo = object : FlickrRepository {
         override suspend fun getImages(tags: String): FlickrResponse {
             return FlickrResponse(
                 "",
@@ -63,13 +58,6 @@ class ExampleInstrumentedTest {
             navigatorProvider.addNavigator(ComposeNavigator())
             navigatorProvider.addNavigator(DialogNavigator())
         }
-    }
-
-    @ExperimentalCoilApi
-    @ExperimentalComposeUiApi
-    @ExperimentalFoundationApi
-    @Test
-    fun testNavigationToDescriptionAndBack() {
         val fakedViewModel = FlickrImageViewModel(
             getInstrumentation().targetContext.applicationContext as Application,
             fakeRepo
@@ -82,6 +70,11 @@ class ExampleInstrumentedTest {
                 }
             }
         }
+    }
+
+    @Test
+    fun testNavigationToDescriptionAndBack() {
+
         //Start on search page
         Assert.assertEquals("search", navController.currentDestination!!.route)
         composeTestRule.onNodeWithText("Untitled").performClick()

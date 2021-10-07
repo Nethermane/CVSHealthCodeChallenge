@@ -4,11 +4,10 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nishimura.cvshealthcodechallenge.network.FlickrRepository
-import com.nishimura.cvshealthcodechallenge.network.FlickrRepositoryImpl
 
 class FlickrImageViewModelFactory(
     private val application: Application,
-    private val repository: FlickrRepository = FlickrRepositoryImpl
+    private val repository: FlickrRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

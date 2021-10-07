@@ -1,9 +1,10 @@
 package com.nishimura.cvshealthcodechallenge.model
 
+import com.nishimura.cvshealthcodechallenge.model.ext.parseDescriptionFromHtml
 import junit.framework.TestCase
 import org.junit.Assert
 
-class ItemExtensionsKtTest : TestCase() {
+class ItemExtensionsTest : TestCase() {
     /**
      * Test the parsing of descriptions from some example HTML samples
      */

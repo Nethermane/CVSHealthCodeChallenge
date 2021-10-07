@@ -23,14 +23,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import com.nishimura.cvshealthcodechallenge.R
 import com.nishimura.cvshealthcodechallenge.model.*
+import com.nishimura.cvshealthcodechallenge.model.ext.getTitleOrUntitled
+import com.nishimura.cvshealthcodechallenge.model.ext.parseDescriptionFromHtml
+import com.nishimura.cvshealthcodechallenge.model.ext.parseHeightFromHtml
+import com.nishimura.cvshealthcodechallenge.model.ext.parseWidthFromHtml
 import com.nishimura.cvshealthcodechallenge.ui.theme.Typography
 
-@ExperimentalCoilApi
 @Composable
 fun FlickrDetailsScreen(flickrItem: Item, navController: NavController) {
     val resources = LocalContext.current.resources
@@ -50,7 +52,7 @@ fun FlickrDetailsScreen(flickrItem: Item, navController: NavController) {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             Image(
                 painter = rememberImagePainter(
-                    data = flickrItem.media.m,
+                    data = flickrItem.media.mediaString,
                     builder = {
                         size(OriginalSize)
                         crossfade(true)

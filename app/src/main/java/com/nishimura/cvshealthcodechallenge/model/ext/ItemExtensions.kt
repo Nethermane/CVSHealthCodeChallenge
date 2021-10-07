@@ -1,4 +1,6 @@
-package com.nishimura.cvshealthcodechallenge.model
+package com.nishimura.cvshealthcodechallenge.model.ext
+
+import com.nishimura.cvshealthcodechallenge.model.Item
 
 fun Item?.getTitleOrUntitled(): String = this?.takeIf { it.title.isNotBlank() }?.title ?: "Untitled"
 

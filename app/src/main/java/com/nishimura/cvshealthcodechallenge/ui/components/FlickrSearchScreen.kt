@@ -1,7 +1,6 @@
 package com.nishimura.cvshealthcodechallenge.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
@@ -32,18 +30,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.nishimura.cvshealthcodechallenge.R
-import com.nishimura.cvshealthcodechallenge.model.getTitleOrUntitled
+import com.nishimura.cvshealthcodechallenge.model.ext.getTitleOrUntitled
 import com.nishimura.cvshealthcodechallenge.ui.theme.Typography
 import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModel
 import kotlinx.coroutines.launch
 
-
-@ExperimentalComposeUiApi
-@ExperimentalCoilApi
-@ExperimentalFoundationApi
 @Composable
 fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavController) {
     val searchValue = viewModel.currentSearch.collectAsState()
@@ -184,7 +177,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavContro
                         .heightIn(max = 125.dp)
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate(resources.getString(R.string.details_route, it))
+                            navController.navigate(resources.getString(R.string.details_route, it.toString()))
                         }
                 ) {
                     Column(
@@ -194,7 +187,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavContro
                     ) {
                         Image(
                             painter = rememberImagePainter(
-                                data = searchResponse.value?.items?.get(it)?.media?.m,
+                                data = searchResponse.value?.items?.get(it)?.media?.mediaString,
                                 builder = {
                                     crossfade(true)
                                     placeholder(R.drawable.placeholder_grey)

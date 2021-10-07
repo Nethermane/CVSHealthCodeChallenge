@@ -3,19 +3,19 @@ package com.nishimura.cvshealthcodechallenge.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.nishimura.cvshealthcodechallenge.UserPreferenceRepository
+import com.nishimura.cvshealthcodechallenge.preferences.UserPreferenceRepository
 import com.nishimura.cvshealthcodechallenge.model.FlickrResponse
 import com.nishimura.cvshealthcodechallenge.model.Item
 import com.nishimura.cvshealthcodechallenge.network.FlickrRepository
-import com.nishimura.cvshealthcodechallenge.network.FlickrRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FlickrImageViewModel(
+class FlickrImageViewModel @Inject constructor(
     application: Application,
-    private val repository: FlickrRepository = FlickrRepositoryImpl
+    private val repository: FlickrRepository
 ) : AndroidViewModel(application) {
 
     //Emits the images to display a list of images
