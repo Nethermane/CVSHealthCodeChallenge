@@ -10,7 +10,7 @@ object RetrofitClient {
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://api.flickr.com")
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-        .client(OkHttpClient.Builder().apply{
+        .client(OkHttpClient.Builder().apply {
             addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })

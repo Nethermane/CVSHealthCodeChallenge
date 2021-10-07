@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +20,7 @@ import com.nishimura.cvshealthcodechallenge.ui.components.FlickrDetailsScreen
 import com.nishimura.cvshealthcodechallenge.ui.components.FlickrSearchScreen
 import com.nishimura.cvshealthcodechallenge.ui.theme.CVSHealthCodeChallengeTheme
 import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModel
+import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModelFactory
 
 
 /**
@@ -45,7 +47,10 @@ import com.nishimura.cvshealthcodechallenge.viewmodel.FlickrImageViewModel
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
-    private val viewModel by viewModels<FlickrImageViewModel>()
+    private val viewModel by viewModels<FlickrImageViewModel> {
+        FlickrImageViewModelFactory(application)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,9 +68,12 @@ class MainActivity : ComponentActivity() {
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun MainActivityScreen(viewModel: FlickrImageViewModel) {
+fun MainActivityScreen(
+    viewModel: FlickrImageViewModel,
+    injectedNavController: NavHostController? = null
+) {
     CVSHealthCodeChallengeTheme {
-        val navController = rememberNavController()
+        val navController = injectedNavController ?: rememberNavController()
         NavHost(navController = navController, startDestination = "search") {
             composable("search") {
                 FlickrSearchScreen(

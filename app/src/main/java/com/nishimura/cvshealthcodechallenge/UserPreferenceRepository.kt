@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 object UserPreferenceRepository {
     private const val sharedPrefKey = "USER_PREFERENCE_MAIN_KEY"
-    const val savedSearchKey = "SAVED_SEARCH_LIST_KEY"
+    private const val savedSearchKey = "SAVED_SEARCH_LIST_KEY"
     private val arrayListStringType = object : TypeToken<ArrayList<String>>() {}.type
 
     //saving list in Shared Preference

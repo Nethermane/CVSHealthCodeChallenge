@@ -4,10 +4,19 @@
     <string name="flickr_search_title">Flickr Image Search</string>
     <string name="flickr_details_title">Flickr Image Details</string>
     <string name="search_button_text">Search</string>
-
+    <string name="recent_searches_header">Recent Searches</string>
+    <string name="recent_no_recent_searches">You have no recent searches. Enter a search term above.</string>
+    <string name="flickr_details_by">By: %1$s</string>
+    <string name="flickr_details_width">Width: %1$dpx</string>
+    <string name="flickr_details_height">Height: %1$dpx</string>
 
 
 <!--Accessibility strings-->
     <string name="search_content_description">Search</string>
+    <string name="close_button_content_description">Close button</string>
 
+
+<!--Nav graph routes-->
+    <string name="details_route">details/%1$d</string>
+    <string name="search_route">search</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.nishimura.cvshealthcodechallenge.network
 
-object FlickrRepository {
-    suspend fun getImages(tags: String = "") = RetrofitClient.flickrService.listRepos(tags)
+import com.nishimura.cvshealthcodechallenge.model.FlickrResponse
+
+interface FlickrRepository {
+    suspend fun getImages(tags: String = ""): FlickrResponse
 }

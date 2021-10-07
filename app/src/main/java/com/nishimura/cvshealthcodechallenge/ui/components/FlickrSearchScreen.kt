@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -56,6 +57,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavContro
     val keyboardController = LocalSoftwareKeyboardController.current
     val lazyGridState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val resources = LocalContext.current.resources
     viewModel.getSaveSearches()
 
     fun doSearch() {
@@ -106,16 +108,16 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavContro
                     })
                 )
                 DropdownMenu(
-                    expanded =  searchValue.value.isEmpty() && !emptyTextTapOutsideBox,
+                    expanded = searchValue.value.isEmpty() && !emptyTextTapOutsideBox,
                     onDismissRequest = { emptyTextTapOutsideBox = true },
                     // This line here will accomplish what you want
                     properties = PopupProperties(focusable = false),
                     modifier = Modifier.fillMaxWidth(0.75f)
 
                 ) {
-                    if(savedSearches.value.isNotEmpty()) {
+                    if (savedSearches.value.isNotEmpty()) {
                         Text(
-                            text = "Recent Searches",
+                            text = stringResource(id = R.string.recent_searches_header),
                             fontWeight = FontWeight.Bold,
                             style = Typography.caption,
                             maxLines = 1,
@@ -124,7 +126,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavContro
                         )
                     } else {
                         Text(
-                            text = "You have no recent searches. Enter a search term above.",
+                            text = stringResource(id = R.string.recent_no_recent_searches),
                             fontWeight = FontWeight.Bold,
                             style = Typography.caption,
                             maxLines = 2,
@@ -182,7 +184,7 @@ fun FlickrSearchScreen(viewModel: FlickrImageViewModel, navController: NavContro
                         .heightIn(max = 125.dp)
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate("details/$it")
+                            navController.navigate(resources.getString(R.string.details_route, it))
                         }
                 ) {
                     Column(

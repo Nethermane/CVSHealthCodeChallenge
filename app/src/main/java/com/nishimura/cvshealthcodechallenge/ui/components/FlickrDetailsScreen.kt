@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,14 +33,15 @@ import com.nishimura.cvshealthcodechallenge.ui.theme.Typography
 @ExperimentalCoilApi
 @Composable
 fun FlickrDetailsScreen(flickrItem: Item, navController: NavController) {
+    val resources = LocalContext.current.resources
     Column {
         TopAppBar(
-            title = { Text("") },
+            title = { },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = "Close button",
+                        contentDescription = stringResource(id = R.string.close_button_content_description),
                         tint = Color.White,
                     )
                 }
@@ -71,10 +73,11 @@ fun FlickrDetailsScreen(flickrItem: Item, navController: NavController) {
                 )
             )
             Text(
-                text = "By: ${
-                    flickrItem.author.replace(Regex("nobody@flickr.com \\(\""), "")
-                        .removeSuffix("\")")
-                }", Modifier.padding(
+                text = resources.getString(
+                    R.string.flickr_details_by,
+                    (flickrItem.author.replace(Regex("nobody@flickr.com \\(\""), "")
+                        .removeSuffix("\")"))
+                ), Modifier.padding(
                     top = dimensionResource(id = R.dimen.small_padding),
                     start = dimensionResource(id = R.dimen.small_padding),
                     end = dimensionResource(id = R.dimen.small_padding),
@@ -88,11 +91,17 @@ fun FlickrDetailsScreen(flickrItem: Item, navController: NavController) {
                 )
             }
             Text(
-                text = "Width: ${flickrItem.parseWidthFromHtml()}px",
+                text = resources.getString(
+                    R.string.flickr_details_width,
+                    (flickrItem.parseWidthFromHtml() ?: 0)
+                ),
                 Modifier.padding(horizontal = dimensionResource(id = R.dimen.small_padding))
             )
             Text(
-                text = "Height: ${flickrItem.parseHeightFromHtml()}px",
+                text = resources.getString(
+                    R.string.flickr_details_height,
+                    (flickrItem.parseHeightFromHtml() ?: 0)
+                ),
                 Modifier.padding(horizontal = dimensionResource(id = R.dimen.small_padding))
             )
             Spacer(modifier = Modifier.height(100.dp))

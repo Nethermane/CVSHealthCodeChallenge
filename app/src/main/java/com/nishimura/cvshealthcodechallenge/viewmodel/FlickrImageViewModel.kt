@@ -1,28 +1,36 @@
 package com.nishimura.cvshealthcodechallenge.viewmodel
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nishimura.cvshealthcodechallenge.UserPreferenceRepository
 import com.nishimura.cvshealthcodechallenge.model.FlickrResponse
 import com.nishimura.cvshealthcodechallenge.model.Item
 import com.nishimura.cvshealthcodechallenge.network.FlickrRepository
+import com.nishimura.cvshealthcodechallenge.network.FlickrRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class FlickrImageViewModel(application: Application) : AndroidViewModel(application) {
+class FlickrImageViewModel(
+    application: Application,
+    private val repository: FlickrRepository = FlickrRepositoryImpl
+) : AndroidViewModel(application) {
+
+    //Emits the images to display a list of images
     private val _flickrImages = MutableStateFlow<FlickrResponse?>(null)
     val flickrImages: StateFlow<FlickrResponse?> = _flickrImages
+
+    //Emits whether or not the search is being done
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
+    //Emits searching history
     private val _savedSearches = MutableStateFlow<List<String>>(emptyList())
     val savedSearches: StateFlow<List<String>> = _savedSearches
 
+    //Largely just for maintaining state when rotating or coming back from details screen
     private val _currentSearch = MutableStateFlow("")
     val currentSearch: StateFlow<String> = _currentSearch
 
@@ -35,12 +43,12 @@ class FlickrImageViewModel(application: Application) : AndroidViewModel(applicat
      */
     fun setCurrentSearch(search: String) {
         _currentSearch.value = search
-
     }
+
     fun searchForImages() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
-            _flickrImages.value = FlickrRepository.getImages(_currentSearch.value)
+            _flickrImages.value = repository.getImages(_currentSearch.value)
             _isLoading.value = false
             saveSearch()
         }
@@ -54,7 +62,6 @@ class FlickrImageViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun saveSearch() {
         _currentSearch.value.takeIf { it.isNotBlank() }?.let {
-
             viewModelScope.launch {
                 val wasChanged =
                     UserPreferenceRepository.addSearchToHistory(it, getApplication())
@@ -65,6 +72,7 @@ class FlickrImageViewModel(application: Application) : AndroidViewModel(applicat
             }
         }
     }
+
     fun getSaveSearches() {
         viewModelScope.launch {
             _savedSearches.value = UserPreferenceRepository.getSearchHistory(getApplication())
