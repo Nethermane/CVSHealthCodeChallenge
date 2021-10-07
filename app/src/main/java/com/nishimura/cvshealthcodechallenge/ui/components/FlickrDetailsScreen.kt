@@ -34,7 +34,7 @@ import com.nishimura.cvshealthcodechallenge.ui.theme.Typography
 fun FlickrDetailsScreen(flickrItem: Item, navController: NavController) {
     Column {
         TopAppBar(
-            title = { Text(stringResource(id = R.string.flickr_details_title)) },
+            title = { Text("") },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
